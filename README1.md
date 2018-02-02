@@ -1,65 +1,29 @@
 # data_processing
-Tool-version:  python 3.6
-1.	机器可读格式：
-  *	逗号分隔值CSV
-  *	JavaScript对象符号 JSON
-  *		可扩展标记语言 XML
-2.	运用Python读取CSV数据
-  *	步骤：
-编写代码，命名为*.py文件(csvRead.py)（注意大小写，间距和换行<python比较严格>）<br>
-将csv文件和py文件放在同一文件夹code中<br>
-（或）/code/data/*.csv<br>
-		 /code/*.py<br>
-		则代码改为open(‘data/*.csv’,’rb’)<br><br>
- 
-运行<br>
-  * 命令行运行（终端或cmd）<br>
-cd ~/Projects/data_wrangling/code(跳转到py文件所在路径)<br>
-python *.py<br>
-  * 在 Anaconda里直接打开*.py文件Run<br>
- 
-  * 缺点：可读性不高<br>
-2.3	改进：<br>
-  代码改为：reader = csv.DictReader(csvfile)<br>
-  则每个数据记录变成一个字典（键是CSV文件的第一行，其余均为值）<br><br>
- 
-3.	JSON数据<br>
-  导入JSON数据<br>
-  保存数据： 键/值对<br>
-  * 步骤：<br>
-  导入json包open函数打开json.loads()将数据载入Python，输出保存在变量datafor循环遍历所有数据，打印每一项<br><br>
- 
-  * 与CSV的读取区别：<br>
-  * CSV: 只读方式打开文件，得到的是文件对象<br>
-  * JSON：读取文件并将内容保存在变量中，得到的是字符串对象<br>
-  * 注意：<br>
-     loads()函数接受字符串作为参数，但是不接收文件作为参数：将JSON字符串载入Python。<br>
-      reader函数接受打开的文件作为参数<br><br>
-4.	XML数据<br>
-    保存数据： 标签和属性<br>
-    导入XML数据：<br>
-  * 步骤：<br>
-    导入ElementTree（用来解析XML）<br>
-   调用ET类的parse方法（对传入文件中的数据进行解析，返回Python对象—树）<br>
-    使用getroot函数获取树的根元素（根标签）<br>
-  【打印： print(root)  得到：<Element 'GHO' at 0x000000000C4B3458>】<br>
-   【代码外Analysis：只取XML的标签，理解XML树的整体结构与格式<br>
-  print list(root)去更好的理解如何提取所需数据<br><br>
- 
-* 比如发现Data数据较好，我们就可以获取Data数据—替换代码：<br>
-  data = root.find(‘Data’)   #如果有多个Data元素列出来，则用findAll()<br>
-  print (list(data) ) <br>
-  得到一个超级长的列表,每个Observation元素代表一行数据，其中还夹杂着子元素，<br>  
- 遍历—替换代码：<br>
-  for observation in data:<br>
-  for item in observation:<br>
-  print(item)得到Dim 和Value对象<br>
-替换成 print(list(item))可以查看有无子元素<br>
-调用  print(item.attrib)返回每一个节点的属性<br>
-为了显示更清晰：创建数据结构：为每一条数据记录创建一个空字典record添加值对使用append方法将每一条数据记录都添加到一个列表中all_data<br>
-得到每个属性字典的键（有多个主键的取第一个）<br>
-  lookup-keys = list(item.attrib.keys())  #获取列表<br>
-  lookup_key = lookup_keys[0]        #获取列表索引，得到第一个值】<br>
-使用item.attrib[lookup_key]返回键对应的值<br><br>
+Tool-version:  python 3.6<br>
+1.	处理Excel数据<br>
+环境准备：<br>
+安装外部包xlrd<br>
+pip install xlrd<br>
+【扩展： 卸载Python包：pip uninstall xlrd<br><br>
+2.	解析Excel文件：<br>
+解析前思考：<br>
+是否尝试过寻找其他格式的数据？<br>
+是否尝试过将Excel文件的一个或多个标签导出成CSV格式（尤其是若EXCEL表中只有几个标签有数据，或只有一个标签的独立数据）<br><br>
+3.	开始解析：<br>
+*  	处理Excel文件的三个主要库：<br>
+xlrd ：读取<br>
+xlwt ：写入并设置格式<br>
+xlutils：一组高级操作工具（先安装xlrd和xlwt）<br>
+*  	指令：<br>
+*  	import xlrd:必备<br>
+*  	book = xlrd.open_workbook(‘*.xlsx’) :打开表<br>
+*  	book.sheet_by_name(工作表名字)：访问工作表<br>
+*  	for sheet in book.sheets():<br>
+		print sheet.name  ：获得所有工作表的名字<br><br>
+*   dir(sheet)列出内置方法和属性的列表<br><br>
+*   sheet.nrows返回总行数<br>
+*  range(i)函数：输出i个元素组成的列表<br>
+		注意：range(0,i)返回前i个数<br>
+*  sheet.row_values(i)根据行号获取每一行的值<br>
+5.	代码：提前想好输出格式的样子，写出这样一个数据实例下一步我要怎么做才能实现目标<br>
 
-  *	注解： tree = ET.parse(‘’) 指的是整个XML对象，以Python能够理解并解析的方式保存<br>
