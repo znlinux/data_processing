@@ -22,4 +22,20 @@ data_rd = DictReader(open('data/mn.csv','rb'))<br>
 解决：<br>
 data_rd = DictReader(open('data/mn.csv','rt',encoding="utf-8"))<br>
 或<br>
-data_rd = DictReader(open('data/mn.csv','r',encoding="utf-8"))<br>
+data_rd = DictReader(open('data/mn.csv','r',encoding="utf-8"))<br><br>
+
+7.	TypeError: 'zip' object is not subscriptable<br>
+错误原因：python3.* <br>
+需要用list读取zip<br>
+错误代码：<br>
+for x in enumerate(zipped_data[0][:20]):<br>
+    print(x)<br><br>
+改为：<br>
+for x in enumerate(list(zipped_data[0])[:20]):<br>
+    print(x)<br><br>
+8。      ValueError: time data '4-7-2014 17:59' does not match format<br> '%m-%d-%y %H:%M'<br>
+错误原因：Y,H,M需要大写<br>
+改正：<br>
+ValueError: time data '4-7-2014 17:59' does not match format '%m-%d-%Y %H:%M'<br><br>
+9.      应用list()时候要注意，list一次后，zip对象会被清空（当迭代结构遍历后会被清空）<br>
+
