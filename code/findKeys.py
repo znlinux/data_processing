@@ -60,14 +60,15 @@ set可以看成数学意义上的无序和无重复元素的集合
 lines = []
 for x in zipped_data:
     y = list(x)
-    lines.append(y[2][1])
-set_of_lines = set(lines)
-print(set_of_lines)
-uniques=[]
+    lines.append(y)
+set_of_lines = set([y[2][1] for y in lines])
 
-#set方法返回的是字典
-for n in lines:
-    if not set_of_lines.remove(n):
-        uniques.append(n)
+uniques=[ y for y in lines if not set_of_lines.remove(y[2][1])]
+
 print(uniques)
-print(set_of_lines)
+
+"""
+out:
+KeyError: '1'
+证明有重复数据
+"""
