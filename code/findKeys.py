@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Feb  4 22:43:41 2018
+Created on Mon Feb  5 16:10:32 2018
 
 @author: ZN
+找出数据的唯一标识符
 """
 from csv import reader
-data_rd = reader(open('data/mn.csv','r',unicoding="utf-8"))
-head_rd = reader(open('data/mn_headers_updated.csv','r',unicoding="utf-8"))
+
+data_rd = reader(open('data/mn.csv','r',encoding="utf-8"))
+head_rd = reader(open('data/mn_headers_updated.csv','r',encoding="utf-8"))
 
 data_rows = [d for d in data_rd]
 head_rows = [h for h in head_rd if h[0] in data_rows[0]]
@@ -26,7 +28,7 @@ for dhead in data_rows[0]:
             if head[0] == dhead:
                 final_head_rows.append(head)
                 break
-            
+
 new_data = []
 
 for row in data_rows[1:]:
@@ -40,36 +42,32 @@ zipped_data = []
 
 for drow in new_data:
     zipped_data.append(zip(final_head_rows,drow))
- 
-"""   
-a=list(zipped_data[0])
-for x in enumerate(a):#返回索引编号+值
-  print(x)
-  为了查看哪些组成了唯一标识符
-  “Line number”不确定是否是唯一标识符的组成，需确定:
-  
+#print(zipped_data)
+    
 """
-b = list(zipped_data)
+利用enumerate函数观察数据：返回索引号和数据值
+
+测试家庭成员编号是不是唯一标识符 第三行第二列是家庭成员编号
+利用remove函数判断家庭成员编号是否唯一：不唯一，remove会引发KeyError
+测试某个值是否存在 if not x:
+测试是否有None类型的数据 if x is None:
+set可以看成数学意义上的无序和无重复元素的集合
 """
-x[2][1]表示的是第3行第2个元素---即Line number所在的位置
-set返回的是不重复的元素集合
-利用remove方法检测每个键出现的次数是否多于一次;
-set_of_lines存放的是唯一键，若有重复值，则remove会触发KeyError
-"""
-set_of_lines = set(x[2][1] for x in b)#
-uniques = [x for x in b if not set_of_lines.remove(x[2][1]) ]
+
+
+#创建一个集合包含所有的家庭成员编号
+
+lines = []
+for x in zipped_data:
+    y = list(x)
+    lines.append(y[2][1])
+set_of_lines = set(lines)
 print(set_of_lines)
+uniques=[]
 
-
-"""
-结果表明家庭成员编号并不是唯一的，
-但我们可以利用类群编号、家庭编号和家庭成员编号作为唯一标识符：
-利用类群编号、家庭编号和家庭成员编号创建一个字符串，构成唯一标识符
-利用remove方法重新创建唯一键，unqiue表中包含每一个唯一数据，如果有重复会抛出异常
-计算唯一列表的长度
-"""
-set_of_keys =set([
-    '%s-%s-%s' % (x[0][1],x[1][1],x[2][1])for x in b]) 
-unique = [x for x in b if not set_of_keys.remove(
-     '%s-%s-%s' % (x[0][1],x[1][1],x[2][1]))]
-print(len(set_of_keys))
+#set方法返回的是字典
+for n in lines:
+    if not set_of_lines.remove(n):
+        uniques.append(n)
+print(uniques)
+print(set_of_lines)
