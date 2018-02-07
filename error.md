@@ -37,5 +37,63 @@ for x in enumerate(list(zipped_data[0])[:20]):<br>
 错误原因：Y,H,M需要大写<br>
 改正：<br>
 ValueError: time data '4-7-2014 17:59' does not match format '%m-%d-%Y %H:%M'<br><br>
-9.      应用list()时候要注意，list一次后，zip对象会被清空（当迭代结构遍历后会被清空）<br>
+9.      应用list()时候要注意，list一次后，zip对象会被清空（当迭代结构遍历后会被清空）<br><br>
+
+10.	TypeError: 'zip' object is not subscriptable<br>
+在使用zip函数时，2.*版本和3的用法不一致：<br>
+	实例：<br>
+	python2:<br>
+	set_of_keys = set([ <br>
+    '%s-%s-%s' % (x[0][1], x[1][1], x[2][1]) for x in zipped_data]) <br>
+<br>
+	python3:<br>
+	for x in zipped_data:<br>
+    y = list(x)<br>
+    key.append(y)<br>
+set_of_keys = set([<br>
+        '%s-%s-%s'%(y[0][1],y[1][1],y[2][1]) for y in key])<br>
+	#要先将zip转换成list类型才可以迭代<br><br>
+11.	ModuleNotFoundError: No module named 'MySQLdb'<br>
+错误原因：python3不适用<br>
+解决：<br>
+详情：http://www.runoob.com/python3/python3-mysql.html<br>
+pip install pymysql<br>
+连接已创建好的数据库：<br>
+import pymysql<br>
+ <br>
+# 打开数据库连接<br>
+db = pymysql.connect("localhost","用户名","密码","表名" ) <br>
+# 使用 cursor() 方法创建一个游标对象 cursor<br>
+cursor = db.cursor()<br>
+# 使用 execute()  方法执行 SQL 查询 <br>
+cursor.execute("SELECT VERSION()")<br>
+# 使用 fetchone() 方法获取单条数据.<br>
+data = cursor.fetchone()<br>
+print ("Database version : %s " % data)<br>
+# 关闭数据库连接<br>
+db.close()<br>
+	创建数据库表：<br>
+		import pymysql<br>
+ 
+# 打开数据库连接<br>
+db = pymysql.connect("localhost","testuser","test123","TESTDB" ) <br>
+# 使用 cursor() 方法创建一个游标对象 cursor<br>
+cursor = db.cursor()<br>
+# 使用 execute() 方法执行 SQL，如果表存在则删除<br>
+cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")<br>
+# 使用预处理语句创建表<br>
+sql = """CREATE TABLE EMPLOYEE (<br>
+        	FIRST_NAME  CHAR(20) NOT NULL,<br>
+         	LAST_NAME  CHAR(20),<br>
+        	AGE INT,  <br>
+        	SEX CHAR(1),<br>
+         	INCOME FLOAT )"""<br>
+ 
+cursor.execute(sql)<br>
+# 关闭数据库连接<br>
+db.close()<br>
+12.	SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 2-3: truncated \UXXXXXXXX escape<br><b
+错误：x.to_excel("C:\ Python\news.xlsx")<br>
+改为：x.to_excel(r"C: \Python\news.xlsx")<br>
+
 
