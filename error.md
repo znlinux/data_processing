@@ -96,4 +96,17 @@ db.close()<br>
 错误：x.to_excel("C:\ Python\news.xlsx")<br>
 改为：x.to_excel(r"C: \Python\news.xlsx")<br>
 
+13.	python3的map,reduce函数：<br>
+reduce函数：用于计算累加<br>
+引入import functiools as func<br>
+		func.reduce()<br>
+或者用from functools import reduce<br>
+		  reduce()<br>
+<br>
+map函数改为列表生成式<br>
+函数功能： 运用表达式，运算两个列表生成新的列表；map（表达式，列表1，列表2）<br>
+如： map(lambda(x,w) : x * w, zip(input_vec,self.weights)<br>
+改为[x * w for x, w in zip(input_vec, self.weights)]<br>
+
+
 
