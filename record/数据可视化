@@ -1,0 +1,9 @@
+数据可视化<br>
+1.图表<br>
+使用matplotlib绘制图表<br>
+import matplotlib.pyplot as plt<br>
+plt.plot(变量1,变量2)#变量1：x坐标；变量2：y坐标<br>
+plt.xlabel(‘’)<br>
+plt.ylabel(‘’)<br>
+plt.title(‘’)<br>
+plt.show()<br>
